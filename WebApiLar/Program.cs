@@ -1,4 +1,5 @@
 using WebApiLar.Domain.Repository;
+using WebApiLar.Infra.Database;
 using WebApiLar.Infra.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors();
 // Add services to the container.
 
+builder.Services.AddDbContext<AppDbContext>();
 builder.Services.AddControllers();
 builder.Services.AddTransient<IPersonRepository, PersonRepository>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
