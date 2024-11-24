@@ -16,6 +16,25 @@ namespace WebApiLar.Infra.Controllers
         {
             this.personRepository = personRepository;
         }
+    
+    [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public ActionResult<List<PersonOutput>> getList()
+    {
+        PersonUseCase personUseCase = new PersonUseCase(this.personRepository);
+        return personUseCase.getList();
+    }
+
+    [HttpGet("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public ActionResult<PersonOutput> findById(long id)
+    {
+        PersonUseCase personUseCase = new PersonUseCase(this.personRepository);
+        PersonInput personInput = new PersonInput(1, "");
+        return personUseCase.findById(personInput);
+    }
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]    

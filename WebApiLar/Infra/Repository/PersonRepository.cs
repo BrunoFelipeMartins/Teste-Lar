@@ -1,4 +1,5 @@
 using WebApiLar.Domain.Entity;
+using WebApiLar.Domain.Entity.Enum;
 using WebApiLar.Domain.Repository;
 using WebApiLar.Infra.Database;
 
@@ -11,6 +12,18 @@ namespace WebApiLar.Infra.Repository
         public PersonRepository(AppDbContext appDbContext)
         {
             this.appDbContext = appDbContext;
+        }
+
+        public List<Person> getList()
+        {
+            List<Person> objectListDomain = new List<Person>();
+            List<Database.Models.Person> objectListModel = 
+            this.appDbContext.people.Where(x => x.active == Active.ACTIVE).ToList();
+            foreach(var item in objectListModel)
+            {
+                objectListDomain.Add(this.fillObject(item));
+            }
+            return objectListDomain;
         }
 
         public Person findById(long id)
