@@ -18,7 +18,7 @@ namespace WebApiLar.Infra.Repository
         {
             List<Person> objectListDomain = new List<Person>();
             List<Database.Models.Person> objectListModel = 
-            this.appDbContext.people.Where(x => x.active == Active.ACTIVE).ToList();
+            appDbContext.people.Where(x => x.active == Active.ACTIVE).ToList();
             foreach(var item in objectListModel)
             {
                 objectListDomain.Add(this.fillObject(item));
@@ -28,8 +28,8 @@ namespace WebApiLar.Infra.Repository
 
         public Person findById(long id)
         {
-            Database.Models.Person? objectModel = this.appDbContext.
-            people.Where(x => x.personId == id).FirstOrDefault();
+            Database.Models.Person? objectModel = appDbContext.
+            people.Where(x => x.idPerson == id).FirstOrDefault();
 
             return this.fillObject(objectModel);
         }
@@ -37,24 +37,25 @@ namespace WebApiLar.Infra.Repository
         {
             Database.Models.Person objectModel = new Database.Models.Person(
                 person.idPerson, person.name, person.cpf, person.dateBirth, person.active);
-                if(objectModel.personId > 0)
+                if(objectModel.idPerson > 0)
                 {
-                    this.appDbContext.people.Update(objectModel);
+                    appDbContext.people.Update(objectModel);
                 }else
                 {
-                    this.appDbContext.people.Add(objectModel);
+                    appDbContext.people.Add(objectModel);
                 }
+                
                 await this.appDbContext.SaveChangesAsync();
-                return new Person(objectModel.personId, objectModel.name, objectModel.cpf!, objectModel.dateBirth!, objectModel.active!);
+                return new Person(objectModel.idPerson, objectModel.name, objectModel.cpf!, objectModel.dateBirth!, objectModel.active!);
         }
 
         private Person fillObject(Database.Models.Person? model){
             if(model != null){
-                long idObject = (long)model.personId;
-                string name = (string)model.name;
-                string cpf = (string)model.cpf!;
-                string date = (string)model.dateBirth!;
-                string active = (string)model.active!;
+                long idObject = (long)model.idPerson;
+                string name = model.name ?? string.Empty;
+                string cpf = model.cpf ?? string.Empty;
+                string date = model.dateBirth ?? string.Empty;
+                string active = model.active ?? string.Empty;
                 return new Person(idObject, name, cpf, date, active);
             }
             throw new KeyNotFoundException("Pessoa não encontrada");

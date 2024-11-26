@@ -11,7 +11,7 @@ using WebApiLar.Infra.Database;
 namespace WebApiLar.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241122003603_InitialCreation")]
+    [Migration("20241126150107_InitialCreation")]
     partial class InitialCreation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,26 +25,29 @@ namespace WebApiLar.Migrations
 
             modelBuilder.Entity("WebApiLar.Infra.Database.Models.Person", b =>
                 {
-                    b.Property<long>("personId")
+                    b.Property<long>("idPerson")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("personId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("idPerson"));
 
                     b.Property<string>("active")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("cpf")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("dateBirth")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("name")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("personId");
+                    b.HasKey("idPerson");
 
                     b.ToTable("people");
                 });

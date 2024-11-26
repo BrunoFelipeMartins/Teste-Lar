@@ -13,16 +13,16 @@ namespace WebApiLar.Migrations
                 name: "people",
                 columns: table => new
                 {
-                    personId = table.Column<long>(type: "bigint", nullable: false)
+                    idPerson = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     name = table.Column<string>(type: "text", nullable: false),
-                    cpf = table.Column<string>(type: "text", nullable: true),
-                    dateBirth = table.Column<string>(type: "text", nullable: true),
-                    active = table.Column<string>(type: "text", nullable: true)
+                    cpf = table.Column<string>(type: "text", nullable: false),
+                    dateBirth = table.Column<string>(type: "text", nullable: false),
+                    active = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_people", x => x.personId);
+                    table.PrimaryKey("PK_people", x => x.idPerson);
                 });
         }
 

@@ -23,26 +23,29 @@ namespace WebApiLar.Migrations
 
             modelBuilder.Entity("WebApiLar.Infra.Database.Models.Person", b =>
                 {
-                    b.Property<long>("personId")
+                    b.Property<long>("idPerson")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("personId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("idPerson"));
 
                     b.Property<string>("active")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("cpf")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("dateBirth")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("name")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("personId");
+                    b.HasKey("idPerson");
 
                     b.ToTable("people");
                 });
