@@ -18,14 +18,14 @@ namespace WebApiLar.Application.UseCase
             if(!CpfValidator.IsValidCpf(input.cpf))
             throw new ArgumentException("CPF inválido.");
 
-            var existingPerson = personRepository.findById(input.idPerson);
-            //se pessoa igual a null e igual a 0 
-            if(existingPerson == null)
-            {
-                throw new KeyNotFoundException("Pessoa não encontrada para atualização");
-            }
+            //var existingPerson = personRepository.findById(input.idPerson);
+            //se pessoa igual a null
+            //if(existingPerson == null)
+            //{
+            //    throw new KeyNotFoundException("Pessoa não encontrada para atualização");
+           // }
 
-            Person person = new Person(input.name, input.cpf, input.dateBirth, input.active);
+            Person person = new Person(input.idPerson,input.name, input.cpf, input.dateBirth, input.active);
             person = await personRepository.save(person);
             return new PersonOutput(person.idPerson, person.name, person.cpf, person.dateBirth);
         }
