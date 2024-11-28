@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using WebApiLar.Application.DTO;
 using WebApiLar.Application.UseCase;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using WebApiLar.Domain.Entity;
 
 namespace WebApiLar.Infra.Controllers
 {
@@ -76,7 +77,36 @@ namespace WebApiLar.Infra.Controllers
             return BadRequest(ModelState);
         }
         PersonUseCase personUseCase = new PersonUseCase(personRepository);
-        return CreatedAtAction("save", await personUseCase.save(input));
+        PersonOutput personOutput = await personUseCase.save(input);
+
+        return CreatedAtAction(nameof(findById), new {id = personOutput.idPerson}, personOutput);
+    }
+
+    [HttpPost("{id}/telephones")]
+    public async Task<ActionResult> AddTelephone(long id, Telephone telephone)
+    {
+        var person = personRepository.findById(id);
+        if (person == null) return NotFound();
+
+        person.telephones.Add(telephone);
+        await personRepository.save(person);
+
+        return CreatedAtAction(nameof(findById), new { id = person.idPerson }, person);
+    }
+
+    [HttpDelete("{personId}/telephones/{telephoneId}")]
+    public async Task<ActionResult> RemoveTelephone(long personId, long telephoneId)
+    {
+        var person = personRepository.findById(personId);
+        if (person == null) return NotFound();
+
+        var telephone = person.telephones.FirstOrDefault(t => t.id == telephoneId);
+        if (telephone == null) return NotFound();
+
+        person.telephones.Remove(telephone); // Remove o telefone da lista
+        await personRepository.save(person);
+
+        return NoContent();
     }
     }
 }

@@ -9,6 +9,7 @@ namespace WebApiLar.Domain.Entity
         public string cpf { get; protected set; }
         public string dateBirth { get; protected set; }
         public string active { get; protected set; }
+        public ICollection<Telephone> telephones{ get; } = new List<Telephone>();
 
         public Person(string name = "", string cpf = "", string dateBirth = "", string active = Active.ACTIVE)
         {

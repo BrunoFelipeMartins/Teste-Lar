@@ -11,7 +11,8 @@ namespace WebApiLar.Application.DTO
         [CpfValidation(ErrorMessage = "CPF inválido.")]
         string cpf = "", 
         string dateBirth = "",
-        string active = Active.ACTIVE);
+        string active = Active.ACTIVE,
+        List<TelephoneInput>? Telephones = null);
 }
 
 public class CpfValidationAttribute : ValidationAttribute

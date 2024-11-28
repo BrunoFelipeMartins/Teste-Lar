@@ -29,7 +29,7 @@ namespace WebApiLar.Infra.Repository
         public Person findById(long id)
         {
             Database.Models.Person? objectModel = appDbContext.
-            people.Where(x => x.idPerson == id).FirstOrDefault();
+            people.Where(x => x.id == id).FirstOrDefault();
 
             return this.fillObject(objectModel);
         }
@@ -37,7 +37,7 @@ namespace WebApiLar.Infra.Repository
         {
             Database.Models.Person objectModel = new Database.Models.Person(
                 person.idPerson, person.name, person.cpf, person.dateBirth, person.active);
-                if(objectModel.idPerson > 0)
+                if(objectModel.id > 0)
                 {
                     appDbContext.people.Update(objectModel);
                 }else
@@ -46,12 +46,12 @@ namespace WebApiLar.Infra.Repository
                 }
                 
                 await this.appDbContext.SaveChangesAsync();
-                return new Person(objectModel.idPerson, objectModel.name, objectModel.cpf!, objectModel.dateBirth!, objectModel.active!);
+                return new Person(objectModel.id, objectModel.name, objectModel.cpf!, objectModel.dateBirth!, objectModel.active!);
         }
 
         private Person fillObject(Database.Models.Person? model){
             if(model != null){
-                long idObject = (long)model.idPerson;
+                long idObject = model.id;
                 string name = model.name ?? string.Empty;
                 string cpf = model.cpf ?? string.Empty;
                 string date = model.dateBirth ?? string.Empty;
